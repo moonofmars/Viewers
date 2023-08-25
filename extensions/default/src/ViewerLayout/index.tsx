@@ -25,6 +25,7 @@ import Toolbar from '../Toolbar/Toolbar';
 
 const { availableLanguages, defaultLanguage, currentLanguage } = i18n;
 
+//Reed: view port
 function ViewerLayout({
   // From Extension Module Params
   extensionManager,
@@ -84,16 +85,17 @@ function ViewerLayout({
   const commitHash = process.env.COMMIT_HASH;
 
   const menuOptions = [
-    {
-      title: t('Header:About'),
-      icon: 'info',
-      onClick: () =>
-        show({
-          content: AboutModal,
-          title: 'About OHIF Viewer',
-          contentProps: { versionNumber, commitHash },
-        }),
-    },
+    // {
+    //   //Reed hide
+    //   title: t('Header:About'),
+    //   icon: 'info',
+    //   onClick: () =>
+    //     show({
+    //       content: AboutModal,
+    //       title: 'About OHIF Viewer',
+    //       contentProps: { versionNumber, commitHash },
+    //     }),
+    // },
     {
       title: t('Header:Preferences'),
       icon: 'settings',
@@ -231,6 +233,7 @@ function ViewerLayout({
         </ErrorBoundary>
       </Header>
       <div
+        id="reed_main_view"
         className="bg-black flex flex-row items-stretch w-full overflow-hidden flex-nowrap relative"
         style={{ height: 'calc(100vh - 52px' }}
       >

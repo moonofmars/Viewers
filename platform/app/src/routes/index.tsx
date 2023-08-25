@@ -93,6 +93,7 @@ const createRoutes = ({
   return (
     <Routes>
       {allRoutes.map((route, i) => {
+        console.log('路由++++', route, i);
         return route.private === true ? (
           <Route
             key={i}

@@ -7,7 +7,7 @@ window.config = {
     // Shows a custom route -access via http://localhost:3000/custom
     // helloPage: '@ohif/extension-default.customizationModule.helloPage',
   },
-  showStudyList: true,
+  showStudyList: true, //首页拉取示例cloudfront.net/dicomweb/studies
   // some windows systems have issues with more than 3 web workers
   maxNumberOfWebWorkers: 3,
   // below flag is for performance reasons, but it might not work for all servers
@@ -70,22 +70,22 @@ window.config = {
         },
       },
     },
-    {
-      friendlyName: 'dicomweb delegating proxy',
-      namespace: '@ohif/extension-default.dataSourcesModule.dicomwebproxy',
-      sourceName: 'dicomwebproxy',
-      configuration: {
-        name: 'dicomwebproxy',
-      },
-    },
-    {
-      friendlyName: 'dicom json',
-      namespace: '@ohif/extension-default.dataSourcesModule.dicomjson',
-      sourceName: 'dicomjson',
-      configuration: {
-        name: 'json',
-      },
-    },
+    // {
+    //   friendlyName: 'dicomweb delegating proxy',
+    //   namespace: '@ohif/extension-default.dataSourcesModule.dicomwebproxy',
+    //   sourceName: 'dicomwebproxy',
+    //   configuration: {
+    //     name: 'dicomwebproxy',
+    //   },
+    // },
+    // {
+    //   friendlyName: 'dicom json',
+    //   namespace: '@ohif/extension-default.dataSourcesModule.dicomjson',
+    //   sourceName: 'dicomjson',
+    //   configuration: {
+    //     name: 'json',
+    //   },
+    // },
     {
       friendlyName: 'dicom local',
       namespace: '@ohif/extension-default.dataSourcesModule.dicomlocal',
@@ -95,7 +95,7 @@ window.config = {
   ],
   httpErrorHandler: error => {
     // This is 429 when rejected from the public idc sandbox too often.
-    console.warn(error.status);
+    console.warn('httpErrorHandler*****', error.status);
 
     // Could use services manager here to bring up a dialog/modal if needed.
     console.warn('test, navigate to https://ohif.org/');

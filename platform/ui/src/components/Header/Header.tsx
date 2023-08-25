@@ -55,11 +55,12 @@ function Header({
           </div>
         </div>
         <div className="flex items-center">{children}</div>
-        <div className="flex items-center">
+        <div className="flex items-center" id="reed_options">
           <span className="mr-3 text-lg text-common-light">
             {t('INVESTIGATIONAL USE ONLY')}
           </span>
           <Dropdown id="options" showDropdownIcon={false} list={menuOptions}>
+            {/* <div>****test****🚗</div> */}
             <IconButton
               id={'options-settings-icon'}
               variant="text"

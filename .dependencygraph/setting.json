@@ -1,0 +1,17 @@
+{
+  "alias": {
+    "@ohif/core": "platform/core/src",
+    "@ohif/ui": "platform/ui/src",
+    "@ohif/i18n": "platform/i18n/src",
+    "@ohif/app": "platform/app/src"
+  },
+  "resolveExtensions": [
+    ".js",
+    ".jsx",
+    ".ts",
+    ".tsx",
+    ".vue",
+    ".scss",
+    ".less"
+  ]
+}

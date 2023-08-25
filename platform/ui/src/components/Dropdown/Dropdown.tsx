@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import Icon from '../Icon';
 import Typography from '../Typography';
 
+//Reed 右上角选项设置
 const Dropdown = ({ id, children, showDropdownIcon, list, titleClassName }) => {
   const [open, setOpen] = useState(false);
   const element = useRef(null);
@@ -21,6 +22,7 @@ const Dropdown = ({ id, children, showDropdownIcon, list, titleClassName }) => {
           onClick();
         }}
         data-cy={id}
+        style={{ width: 85 }}
       >
         {!!icon && <Icon name={icon} className="w-4 mr-2 text-white" />}
         <Typography className={titleClassName}>{title}</Typography>

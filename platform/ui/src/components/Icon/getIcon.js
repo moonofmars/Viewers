@@ -129,6 +129,9 @@ import oldTrash from './../../assets/icons/old-trash.svg';
 import oldPlay from './../../assets/icons/old-play.svg';
 import oldStop from './../../assets/icons/old-stop.svg';
 
+/** reed */
+import loading from './../../assets/svgs/loading.svg';
+
 const ICONS = {
   'arrow-down': arrowDown,
   'arrow-left': arrowLeft,
@@ -260,6 +263,9 @@ const ICONS = {
   'old-trash': oldTrash,
   'old-play': oldPlay,
   'old-stop': oldStop,
+
+  /** reed */
+  loading,
 };
 
 function addIcon(iconName, iconSVG) {

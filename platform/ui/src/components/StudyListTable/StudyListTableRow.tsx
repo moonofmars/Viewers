@@ -8,6 +8,9 @@ import Icon from '../Icon';
 const StudyListTableRow = props => {
   const { tableData } = props;
   const { row, expandedContent, onClickRow, isExpanded } = tableData;
+
+  console.log('👌🇫🇷***StudyListTableRow***', new Date(),window.location.search);
+
   return (
     <>
       <tr className="select-none">

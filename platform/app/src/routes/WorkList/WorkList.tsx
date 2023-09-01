@@ -68,6 +68,8 @@ function WorkList({
   const debouncedFilterValues = useDebounce(filterValues, 200);
   const { resultsPerPage, pageNumber, sortBy, sortDirection } = filterValues;
 
+  const fromLocal = window.location.search.indexOf('datasources=dicomlocal') > -1;
+
   /*
    * The default sort value keep the filters synchronized with runtime conditional sorting
    * Only applied if no other sorting is specified and there are less than 101 studies
@@ -231,7 +233,7 @@ function WorkList({
   const offsetAndTake = offset + resultsPerPage;
   const tableDataSource = sortedStudies.map((study, key) => {
     const rowKey = key + 1;
-    const isExpanded = expandedRows.some(k => k === rowKey);
+    const isExpanded = fromLocal || expandedRows.some(k => k === rowKey);
     const {
       studyInstanceUid,
       accession,
@@ -326,13 +328,13 @@ function WorkList({
           seriesTableDataSource={
             seriesInStudiesMap.has(studyInstanceUid)
               ? seriesInStudiesMap.get(studyInstanceUid).map(s => {
-                  return {
-                    description: s.description || '(empty)',
-                    seriesNumber: s.seriesNumber ?? '',
-                    modality: s.modality || '',
-                    instances: s.numSeriesInstances || '',
-                  };
-                })
+                return {
+                  description: s.description || '(empty)',
+                  seriesNumber: s.seriesNumber ?? '',
+                  modality: s.modality || '',
+                  instances: s.numSeriesInstances || '',
+                };
+              })
               : []
           }
         >
@@ -361,7 +363,7 @@ function WorkList({
                 key={i}
                 to={`${dataPath ? '../../' : ''}${mode.routeName}${dataPath ||
                   ''}?${query.toString()}`}
-                // to={`${mode.routeName}/dicomweb?StudyInstanceUIDs=${studyInstanceUid}`}
+              // to={`${mode.routeName}/dicomweb?StudyInstanceUIDs=${studyInstanceUid}`}
               >
                 <Button
                   rounded="full"
@@ -369,7 +371,7 @@ function WorkList({
                   disabled={!isValidMode}
                   endIcon={<Icon name="launch-arrow" />} // launch-arrow | launch-info
                   className={classnames('font-medium	', { 'ml-2': !isFirst })}
-                  onClick={() => {}}
+                  onClick={() => { }}
                 >
                   {t(`Modes:${mode.displayName}`)}
                 </Button>
@@ -378,10 +380,10 @@ function WorkList({
           })}
         </StudyListExpandedRow>
       ),
-      onClickRow: () =>
+      onClickRow: () =>{// Reed 可能有多个展开项
         setExpandedRows(s =>
           isExpanded ? s.filter(n => rowKey !== n) : [...s, rowKey]
-        ),
+        )},
       isExpanded,
     };
   });
@@ -391,7 +393,7 @@ function WorkList({
   const commitHash = process.env.COMMIT_HASH;
 
   const menuOptions = [
-    // {//Reed Hide VA
+    // {//Reed Hide main page
     //   title: t('Header:About'),
     //   icon: 'info',
     //   onClick: () =>
@@ -447,63 +449,65 @@ function WorkList({
   const uploadProps =
     dicomUploadComponent && dataSource.getConfig().dicomUploadEnabled
       ? {
-          title: 'Upload files ...',
-          closeButton: true,
-          shouldCloseOnEsc: false,
-          shouldCloseOnOverlayClick: false,
-          content: dicomUploadComponent.bind(null, {
-            dataSource,
-            onComplete: () => {
-              hide();
-              onRefresh();
-            },
-            onStarted: () => {
-              show({
-                ...uploadProps,
-                // when upload starts, hide the default close button as closing the dialogue must be handled by the upload dialogue itself
-                closeButton: false,
-              });
-            },
-          }),
-        }
+        title: 'Upload files ...',
+        closeButton: true,
+        shouldCloseOnEsc: false,
+        shouldCloseOnOverlayClick: false,
+        content: dicomUploadComponent.bind(null, {
+          dataSource,
+          onComplete: () => {
+            hide();
+            onRefresh();
+          },
+          onStarted: () => {
+            show({
+              ...uploadProps,
+              // when upload starts, hide the default close button as closing the dialogue must be handled by the upload dialogue itself
+              closeButton: false,
+            });
+          },
+        }),
+      }
       : undefined;
-
+  console.log('⬆️🇫🍺', window.location.search, hasStudies);
   return (
-    <div className="bg-black h-screen flex flex-col ">
+    <div className="bg-black h-screen flex flex-col " id='rd_wk_list'>
       <Header
         isSticky
         menuOptions={menuOptions}
         isReturnEnabled={false}
         WhiteLabeling={appConfig.whiteLabeling}
       />
-      <div className="overflow-y-auto ohif-scrollbar flex flex-col grow">
-        <StudyListFilter
-          numOfStudies={pageNumber * resultsPerPage > 100 ? 101 : numOfStudies}
-          filtersMeta={filtersMeta}
-          filterValues={{ ...filterValues, ...defaultSortValues }}
-          onChange={setFilterValues}
-          clearFilters={() => setFilterValues(defaultFilterValues)}
-          isFiltering={isFiltering(filterValues, defaultFilterValues)}
-          onUploadClick={uploadProps ? () => show(uploadProps) : undefined}
-        />
+      <div className="overflow-y-auto ohif-scrollbar flex flex-col grow" id='rs_all_work'>
+        {!fromLocal &&
+          <StudyListFilter
+            numOfStudies={pageNumber * resultsPerPage > 100 ? 101 : numOfStudies}
+            filtersMeta={filtersMeta}
+            filterValues={{ ...filterValues, ...defaultSortValues }}
+            onChange={setFilterValues}
+            clearFilters={() => setFilterValues(defaultFilterValues)}
+            isFiltering={isFiltering(filterValues, defaultFilterValues)}
+            onUploadClick={uploadProps ? () => show(uploadProps) : undefined}
+          />}
+          {fromLocal && <br/>}
         {hasStudies ? (
-          <div className="grow flex flex-col">
+          <div className="grow flex flex-col" id='rs_work_item'>
             <StudyListTable
               tableDataSource={tableDataSource.slice(offset, offsetAndTake)}
               numOfStudies={numOfStudies}
               filtersMeta={filtersMeta}
             />
-            <div className="grow">
+            {!fromLocal && <div className="grow">
               <StudyListPagination
                 onChangePage={onPageNumberChange}
                 onChangePerPage={onResultsPerPageChange}
                 currentPage={pageNumber}
                 perPage={resultsPerPage}
               />
-            </div>
+            </div>}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center pt-48">
+          <div className="flex flex-col items-center justify-center pt-48" id='rs_no_list'>
             {appConfig.showLoadingIndicator && isLoadingData ? (
               <LoadingIndicatorProgress className={'w-full h-full bg-black'} />
             ) : (

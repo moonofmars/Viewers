@@ -47,10 +47,14 @@ function Header({
             {isReturnEnabled && (
               <Icon name="chevron-left" className="w-8 text-primary-active" />
             )}
-            <div className="ml-4">
-              {WhiteLabeling?.createLogoComponentFn?.(React, props) || (
+            <div className="inline-flex items-center" style={{marginLeft:23}} id='rs_logo'>
+              {/* {WhiteLabeling?.createLogoComponentFn?.(React, props) || (
                 <Svg name="logo-ohif" />
-              )}
+              )} */}
+               <Svg name="logo0" />
+              {/* <div style={styles.logo}>Ω</div> */}
+              {/* <img height='30px' src={require('./../../assets/svgs/logo.png')} alt='*'/> */}
+              <span style={{ color: 'white',marginLeft:15, fontFamily:'monospace' }}>View DICOM Anywhere Anytime</span>
             </div>
           </div>
         </div>
@@ -59,7 +63,7 @@ function Header({
           <span className="mr-3 text-lg text-common-light">
             {t('INVESTIGATIONAL USE ONLY')}
           </span>
-          <Dropdown id="options" showDropdownIcon={false} list={menuOptions}>
+          <Dropdown showDropdownIcon={false} list={menuOptions}>
             {/* <div>****test****🚗</div> */}
             <IconButton
               id={'options-settings-icon'}

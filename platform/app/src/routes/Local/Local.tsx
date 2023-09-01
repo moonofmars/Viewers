@@ -8,7 +8,7 @@ import filesToStudies from './filesToStudies';
 
 import { extensionManager } from '../../App.tsx';
 
-import { Icon, Button, LoadingIndicatorProgress } from '@ohif/ui';
+import { Icon, Button, LoadingIndicatorProgress, Svg } from '@ohif/ui';
 
 const getLoadButton = (onDrop, text, isDir) => {
   return (
@@ -21,7 +21,7 @@ const getLoadButton = (onDrop, text, isDir) => {
             disabled={false}
             endIcon={<Icon name="launch-arrow" />} // launch-arrow | launch-info
             className={classnames('font-medium', 'ml-2')}
-            onClick={() => {}}
+            onClick={() => { }}
           >
             {text}
             {isDir ? (
@@ -121,12 +121,18 @@ function Local({ modePath }: LocalProps) {
         <div {...getRootProps()} style={{ width: '100%', height: '100%' }}>
           <div className="h-screen w-screen flex justify-center items-center ">
             <div className="py-8 px-8 mx-auto bg-secondary-dark drop-shadow-md space-y-2 rounded-lg">
-              <img
+              {/* <img
                 className="block mx-auto h-14"
                 src="./ohif-logo.svg"
                 alt="OHIF"
-              />
-              <div className="text-center space-y-2 pt-4">
+              /> */}
+              <div className="flex items-center justify-center">
+                <Svg name="logo1" />
+                <div style={{ marginLeft: 15, fontFamily: 'monospace' }}
+                 className='text-white text-[20px] leading-[1.2]'>
+                  View DICOM<br />Anywhere Anytime</div>
+              </div>
+              <div className="text-center space-y-2 pt-4" id='rs_remind'>
                 {dropInitiated ? (
                   <div className="flex flex-col items-center justify-center pt-48">
                     <LoadingIndicatorProgress

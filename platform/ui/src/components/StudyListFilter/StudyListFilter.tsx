@@ -26,10 +26,9 @@ const StudyListFilter = ({
     });
   };
   const isSortingEnabled = numOfStudies > 0 && numOfStudies <= 100;
-
   return (
     <React.Fragment>
-      <div>
+      <div id='rs_study_filter'>
         <div className="bg-primary-dark">
           <div className="container relative flex flex-col pt-5 m-auto">
             <div className="flex flex-row justify-between px-12 mb-5">
@@ -37,13 +36,13 @@ const StudyListFilter = ({
                 <Typography variant="h4" className="mr-6 text-primary-light">
                   {t('StudyList')}
                 </Typography>
-                {onUploadClick && (
+                {onUploadClick || true && (
                   <div
                     className="flex items-center gap-2 cursor-pointer text-primary-active text-lg self-center font-semibold"
                     onClick={onUploadClick}
                   >
                     <Icon name="icon-upload"></Icon>
-                    <span>Upload</span>
+                    <span>Upload****</span>
                   </div>
                 )}
               </div>

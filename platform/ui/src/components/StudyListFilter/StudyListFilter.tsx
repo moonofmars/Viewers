@@ -1,11 +1,11 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../Button';
 import Icon from '../Icon';
-import Typography from '../Typography';
 import InputGroup from '../InputGroup';
+import Typography from '../Typography';
 
 const StudyListFilter = ({
   filtersMeta,
@@ -26,9 +26,10 @@ const StudyListFilter = ({
     });
   };
   const isSortingEnabled = numOfStudies > 0 && numOfStudies <= 100;
+
   return (
     <React.Fragment>
-      <div id='rs_study_filter'>
+      <div id="rs_study_filter">
         <div className="bg-primary-dark">
           <div className="container relative flex flex-col pt-5 m-auto">
             <div className="flex flex-row justify-between px-12 mb-5">
@@ -36,15 +37,16 @@ const StudyListFilter = ({
                 <Typography variant="h4" className="mr-6 text-primary-light">
                   {t('StudyList')}
                 </Typography>
-                {onUploadClick || true && (
-                  <div
-                    className="flex items-center gap-2 cursor-pointer text-primary-active text-lg self-center font-semibold"
-                    onClick={onUploadClick}
-                  >
-                    <Icon name="icon-upload"></Icon>
-                    <span>Upload****</span>
-                  </div>
-                )}
+                {onUploadClick ||
+                  (true && (
+                    <div
+                      className="flex items-center gap-2 cursor-pointer text-primary-active text-lg self-center font-semibold"
+                      onClick={onUploadClick}
+                    >
+                      <Icon name="icon-upload"></Icon>
+                      <span>Upload****</span>
+                    </div>
+                  ))}
               </div>
               <div className="flex flex-row">
                 {isFiltering && (
@@ -79,7 +81,7 @@ const StudyListFilter = ({
         </div>
       </div>
       <div className="sticky z-10 border-b-4 border-black -top-1">
-        <div className="pt-3 pb-3 bg-primary-dark ">
+        <div className="pt-3 pb-3 bg-primary-dark " id="rs_input">
           <InputGroup
             inputMeta={filtersMeta}
             values={filterValues}

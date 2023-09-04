@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import { Link, useNavigate } from 'react-router-dom';
-import moment from 'moment';
-import qs from 'query-string';
 import isEqual from 'lodash.isequal';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import qs from 'query-string';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
 //
-import filtersMeta from './filtersMeta.js';
-import { useAppConfig } from '@state';
 import { useDebounce, useSearchParams } from '@hooks';
-import { utils, hotkeys, ServicesManager } from '@ohif/core';
+import { ServicesManager, hotkeys, utils } from '@ohif/core';
+import { useAppConfig } from '@state';
+import filtersMeta from './filtersMeta.js';
 
 import {
-  Icon,
-  StudyListExpandedRow,
   Button,
   EmptyStudies,
-  StudyListTable,
-  StudyListPagination,
-  StudyListFilter,
-  TooltipClipboard,
   Header,
-  useModal,
-  AboutModal,
-  UserPreferences,
+  Icon,
   LoadingIndicatorProgress,
+  StudyListExpandedRow,
+  StudyListFilter,
+  StudyListPagination,
+  StudyListTable,
+  Svg,
+  TooltipClipboard,
+  UserPreferences,
+  useModal,
 } from '@ohif/ui';
 
 import i18n from '@ohif/i18n';
@@ -53,6 +53,7 @@ function WorkList({
   const { hotkeyDefinitions, hotkeyDefaults } = hotkeysManager;
   const { show, hide } = useModal();
   const { t } = useTranslation();
+
   // ~ Modes
   const [appConfig] = useAppConfig();
   // ~ Filters
@@ -68,7 +69,8 @@ function WorkList({
   const debouncedFilterValues = useDebounce(filterValues, 200);
   const { resultsPerPage, pageNumber, sortBy, sortDirection } = filterValues;
 
-  const fromLocal = window.location.search.indexOf('datasources=dicomlocal') > -1;
+  const fromLocal =
+    window.location.search.indexOf('datasources=dicomlocal') > -1;
 
   /*
    * The default sort value keep the filters synchronized with runtime conditional sorting
@@ -111,7 +113,7 @@ function WorkList({
   }
 
   // ~ Rows & Studies
-  const [expandedRows, setExpandedRows] = useState([]);
+  const [expandedRows, setExpandedRows] = useState(fromLocal ? [1] : []);
   const [studiesWithSeriesData, setStudiesWithSeriesData] = useState([]);
   const numOfStudies = studiesTotal;
 
@@ -207,17 +209,18 @@ function WorkList({
         console.warn(ex);
       }
     };
-
+    console.log('fetch +++++', sortedStudies);
     // TODO: WHY WOULD YOU USE AN INDEX OF 1?!
     // Note: expanded rows index begins at 1
     for (let z = 0; z < expandedRows.length; z++) {
       const expandedRowIndex = expandedRows[z] - 1;
+      if (!sortedStudies[expandedRowIndex]) continue;
+
       const studyInstanceUid = sortedStudies[expandedRowIndex].studyInstanceUid;
 
       if (studiesWithSeriesData.includes(studyInstanceUid)) {
         continue;
       }
-
       fetchSeries(studyInstanceUid);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -231,6 +234,7 @@ function WorkList({
   const rollingPageNumber = (pageNumber - 1) % rollingPageNumberMod;
   const offset = resultsPerPage * rollingPageNumber;
   const offsetAndTake = offset + resultsPerPage;
+  // reed 数据源
   const tableDataSource = sortedStudies.map((study, key) => {
     const rowKey = key + 1;
     const isExpanded = fromLocal || expandedRows.some(k => k === rowKey);
@@ -380,10 +384,12 @@ function WorkList({
           })}
         </StudyListExpandedRow>
       ),
-      onClickRow: () =>{// Reed 可能有多个展开项
+      onClickRow: () => {
+        // Reed 可能有多个展开项
         setExpandedRows(s =>
           isExpanded ? s.filter(n => rowKey !== n) : [...s, rowKey]
-        )},
+        );
+      },
       isExpanded,
     };
   });
@@ -469,45 +475,63 @@ function WorkList({
         }),
       }
       : undefined;
-  console.log('⬆️🇫🍺', window.location.search, hasStudies);
+  console.log('⬆️🇫🍺', window.location.search, seriesInStudiesMap, studies, sortedStudies);
+
   return (
-    <div className="bg-black h-screen flex flex-col " id='rd_wk_list'>
+    <div className="bg-black h-screen flex flex-col " id="rd_wk_list">
       <Header
         isSticky
         menuOptions={menuOptions}
-        isReturnEnabled={false}
+        isReturnEnabled={fromLocal}
         WhiteLabeling={appConfig.whiteLabeling}
+        onClickReturnButton={() => navigate({
+          pathname: '/local',// reed 返回local
+        })}
       />
-      <div className="overflow-y-auto ohif-scrollbar flex flex-col grow" id='rs_all_work'>
-        {!fromLocal &&
+      <div
+        className="overflow-y-auto ohif-scrollbar flex flex-col grow"
+        id="rs_all_work"
+      >
+        {!fromLocal && (
           <StudyListFilter
-            numOfStudies={pageNumber * resultsPerPage > 100 ? 101 : numOfStudies}
+            numOfStudies={
+              pageNumber * resultsPerPage > 100 ? 101 : numOfStudies
+            }
             filtersMeta={filtersMeta}
             filterValues={{ ...filterValues, ...defaultSortValues }}
             onChange={setFilterValues}
             clearFilters={() => setFilterValues(defaultFilterValues)}
             isFiltering={isFiltering(filterValues, defaultFilterValues)}
             onUploadClick={uploadProps ? () => show(uploadProps) : undefined}
-          />}
-          {fromLocal && <br/>}
+          />
+        )}
+        {fromLocal && <br />}
         {hasStudies ? (
-          <div className="grow flex flex-col" id='rs_work_item'>
+          <div className="grow flex flex-col" id="rs_work_item">
             <StudyListTable
               tableDataSource={tableDataSource.slice(offset, offsetAndTake)}
               numOfStudies={numOfStudies}
               filtersMeta={filtersMeta}
             />
-            {!fromLocal && <div className="grow">
-              <StudyListPagination
-                onChangePage={onPageNumberChange}
-                onChangePerPage={onResultsPerPageChange}
-                currentPage={pageNumber}
-                perPage={resultsPerPage}
-              />
-            </div>}
+            {!fromLocal && (
+              <div className="grow">
+                <StudyListPagination
+                  onChangePage={onPageNumberChange}
+                  onChangePerPage={onResultsPerPageChange}
+                  currentPage={pageNumber}
+                  perPage={resultsPerPage}
+                />
+              </div>
+            )}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center pt-48" id='rs_no_list'>
+          <div
+            className="grow flex flex-col items-center justify-center pt-48"
+            id="rs_no_list"
+            onClick={() => navigate({
+              pathname: '/local',
+            })}
+          >
             {appConfig.showLoadingIndicator && isLoadingData ? (
               <LoadingIndicatorProgress className={'w-full h-full bg-black'} />
             ) : (
@@ -515,8 +539,15 @@ function WorkList({
             )}
           </div>
         )}
+        <div title='DICOM LAB'>
+          <div className='flex justify-center' style={{ opacity: 0.8 }}>
+            <Svg name="wx" />
+          </div>
+          <div className='flex justify-center text-white' style={{ fontSize: 13, marginTop: 15 }}>
+            获取使用帮助或有任何意见/建议，请关注公众号</div>
+        </div>
       </div>
-    </div>
+    </div >
   );
 }
 

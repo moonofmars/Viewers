@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { StudyBrowser, useImageViewer, useViewportGrid } from '@ohif/ui';
 import { utils } from '@ohif/core';
+import { StudyBrowser, useImageViewer, useViewportGrid } from '@ohif/ui';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
 
 const { sortStudyInstances, formatDate } = utils;
 
@@ -220,11 +220,11 @@ function PanelStudyBrowser({
     );
     const updatedExpandedStudyInstanceUIDs = shouldCollapseStudy
       ? // eslint-disable-next-line prettier/prettier
-        [
-          ...expandedStudyInstanceUIDs.filter(
-            stdyUid => stdyUid !== StudyInstanceUID
-          ),
-        ]
+      [
+        ...expandedStudyInstanceUIDs.filter(
+          stdyUid => stdyUid !== StudyInstanceUID
+        ),
+      ]
       : [...expandedStudyInstanceUIDs, StudyInstanceUID];
 
     setExpandedStudyInstanceUIDs(updatedExpandedStudyInstanceUIDs);
@@ -241,7 +241,6 @@ function PanelStudyBrowser({
 
   const activeDisplaySetInstanceUIDs =
     viewports[activeViewportIndex]?.displaySetInstanceUIDs;
-
   return (
     <StudyBrowser
       tabs={tabs}

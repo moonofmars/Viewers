@@ -1,13 +1,13 @@
-import React, { ReactNode } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import NavBar from '../NavBar';
-import Svg from '../Svg';
+import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import IconButton from '../IconButton';
-import Dropdown from '../Dropdown';
+import NavBar from '../NavBar';
+import Svg from '../Svg';
 
 function Header({
   children,
@@ -47,14 +47,14 @@ function Header({
             {isReturnEnabled && (
               <Icon name="chevron-left" className="w-8 text-primary-active" />
             )}
-            <div className="inline-flex items-center" style={{marginLeft:23}} id='rs_logo'>
+            <div className="inline-flex items-center" style={{ marginLeft: 20 }} id='rs_logo'>
               {/* {WhiteLabeling?.createLogoComponentFn?.(React, props) || (
                 <Svg name="logo-ohif" />
               )} */}
-               <Svg name="logo0" />
+              <Svg name="logo0" />
               {/* <div style={styles.logo}>Ω</div> */}
               {/* <img height='30px' src={require('./../../assets/svgs/logo.png')} alt='*'/> */}
-              <span style={{ color: 'white',marginLeft:15, fontFamily:'monospace' }}>View DICOM Anywhere Anytime</span>
+              <span style={{ color: 'white', marginLeft: 15, fontFamily: 'monospace' }}>View DICOM Anywhere Anytime</span>
             </div>
           </div>
         </div>

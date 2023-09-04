@@ -1,12 +1,12 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Table from '../Table';
-import TableHead from '../TableHead';
 import TableBody from '../TableBody';
-import TableRow from '../TableRow';
 import TableCell from '../TableCell';
+import TableHead from '../TableHead';
+import TableRow from '../TableRow';
 
 const StudyListExpandedRow = ({
   seriesTableColumns,
@@ -14,7 +14,7 @@ const StudyListExpandedRow = ({
   children,
 }) => {
   const { t } = useTranslation('StudyList');
-
+  console.log('sssssd+++++', seriesTableDataSource);
   return (
     <div className="w-full bg-black py-4 pl-12 pr-2">
       <div className="block">{children}</div>

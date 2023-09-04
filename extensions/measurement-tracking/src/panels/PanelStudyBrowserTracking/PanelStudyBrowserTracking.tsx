@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { utils } from '@ohif/core';
 import {
+  Dialog,
   StudyBrowser,
   useImageViewer,
   useViewportGrid,
-  Dialog,
 } from '@ohif/ui';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { useTrackedMeasurements } from '../../getContextModule';
 
 const { formatDate } = utils;
@@ -303,10 +303,10 @@ function PanelStudyBrowserTracking({
     );
     const updatedExpandedStudyInstanceUIDs = shouldCollapseStudy
       ? [
-          ...expandedStudyInstanceUIDs.filter(
-            stdyUid => stdyUid !== StudyInstanceUID
-          ),
-        ]
+        ...expandedStudyInstanceUIDs.filter(
+          stdyUid => stdyUid !== StudyInstanceUID
+        ),
+      ]
       : [...expandedStudyInstanceUIDs, StudyInstanceUID];
 
     setExpandedStudyInstanceUIDs(updatedExpandedStudyInstanceUIDs);
@@ -365,7 +365,12 @@ function PanelStudyBrowserTracking({
       setExpandedStudyInstanceUIDs(updatedExpandedStudyInstanceUIDs);
     }
   }, [expandedStudyInstanceUIDs, jumpToDisplaySet, tabs]);
-
+  console.log('<div>**哪个页面？sa🇫🇷👀22222</div>', tabs, {
+    StudyInstanceUIDs,
+    studyDisplayList,
+    displaySets,
+    hangingProtocolService
+  });
   return (
     <StudyBrowser
       tabs={tabs}
@@ -386,7 +391,7 @@ function PanelStudyBrowserTracking({
           SeriesInstanceUID: displaySet.SeriesInstanceUID,
         });
       }}
-      onClickThumbnail={() => {}}
+      onClickThumbnail={() => { }}
       onDoubleClickThumbnail={onDoubleClickThumbnailHandler}
       activeDisplaySetInstanceUIDs={activeViewportDisplaySetInstanceUIDs}
     />
@@ -450,16 +455,16 @@ function _mapDisplaySets(
         numPanes === 1
           ? []
           : viewports.reduce((acc, viewportData, index) => {
-              if (
-                index < numPanes &&
-                viewportData?.displaySetInstanceUIDs?.includes(
-                  ds.displaySetInstanceUID
-                )
-              ) {
-                acc.push(viewportData.viewportLabel);
-              }
-              return acc;
-            }, []);
+            if (
+              index < numPanes &&
+              viewportData?.displaySetInstanceUIDs?.includes(
+                ds.displaySetInstanceUID
+              )
+            ) {
+              acc.push(viewportData.viewportLabel);
+            }
+            return acc;
+          }, []);
 
       const array =
         componentType === 'thumbnailTracked'
@@ -599,8 +604,9 @@ function _getComponentType(Modality) {
  * @param {object[]} displaySets
  * @returns tabs - The prop object expected by the StudyBrowser component
  */
+// reed 根据**分类： primary recent all
 function _createStudyBrowserTabs(
-  primaryStudyInstanceUIDs,
+  primaryStudyInstanceUIDs,//StudyInstanceUIDs
   studyDisplayList,
   displaySets,
   hangingProtocolService

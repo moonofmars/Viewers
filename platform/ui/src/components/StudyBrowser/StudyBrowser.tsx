@@ -1,12 +1,12 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import StudyItem from '../StudyItem';
-import ButtonGroup from '../ButtonGroup';
-import Button from '../Button';
-import ThumbnailList from '../ThumbnailList';
 import { StringNumber } from '../../types';
+import Button from '../Button';
+import ButtonGroup from '../ButtonGroup';
+import StudyItem from '../StudyItem';
+import ThumbnailList from '../ThumbnailList';
 
 const getTrackedSeries = displaySets => {
   let trackedSeries = 0;
@@ -36,6 +36,7 @@ const StudyBrowser = ({
 
   const getTabContent = () => {
     const tabData = tabs.find(tab => tab.name === activeTabName);
+    console.log('all tabs 🏠', tabs, tabData, activeTabName);
     return tabData.studies.map(
       ({
         studyInstanceUid,
@@ -174,7 +175,7 @@ StudyBrowser.propTypes = {
   ),
 };
 
-const noop = () => {};
+const noop = () => { };
 
 StudyBrowser.defaultProps = {
   onClickTab: noop,

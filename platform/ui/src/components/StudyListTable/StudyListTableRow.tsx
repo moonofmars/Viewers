@@ -1,6 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import getGridWidthClass from '../../utils/getGridWidthClass';
 
 import Icon from '../Icon';
@@ -8,8 +9,10 @@ import Icon from '../Icon';
 const StudyListTableRow = props => {
   const { tableData } = props;
   const { row, expandedContent, onClickRow, isExpanded } = tableData;
+  const { t } = useTranslation('StudyList');
 
-  console.log('👌🇫🇷***StudyListTableRow***', new Date(),window.location.search);
+  const fromLocal =
+    window.location.search.indexOf('datasources=dicomlocal') > -1;
 
   return (
     <>
@@ -32,6 +35,19 @@ const StudyListTableRow = props => {
           >
             <table className={classnames('w-full p-4')}>
               <tbody>
+
+                {fromLocal && <tr className='cursor-pointer hover:bg-secondary-main transition duration-300 bg-secondary-dark'>
+                  {['PatientName', 'MRN', 'StudyDate', 'StudyDescription', 'Modality', 'AccessionNumber', 'Instances'].map((name, idx) => (
+                    <td
+                      role="button"
+                      className={'px-4 py-2 text-base truncate w-4/24'}
+                      key={'rs_' + name}
+                    >
+                      {t(name)}
+                    </td>
+                  ))}
+                </tr>}
+
                 <tr
                   className={classnames(
                     'cursor-pointer hover:bg-secondary-main transition duration-300',
@@ -44,6 +60,7 @@ const StudyListTableRow = props => {
                 >
                   {row.map((cell, index) => {
                     const { content, title, gridCol } = cell;
+                    // console.log('*****', cell);
                     return (
                       <td
                         key={index}
@@ -58,7 +75,7 @@ const StudyListTableRow = props => {
                         title={title}
                       >
                         <div className="flex">
-                          {index === 0 && (
+                          {index === 0 && !fromLocal && (
                             <div>
                               <Icon
                                 name={

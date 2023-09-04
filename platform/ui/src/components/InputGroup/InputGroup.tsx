@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
 import getGridWidthClass from '../../utils/getGridWidthClass';
 
-import InputText from '../InputText';
 import InputDateRange from '../InputDateRange';
-import InputMultiSelect from '../InputMultiSelect';
 import InputLabelWrapper from '../InputLabelWrapper';
+import InputMultiSelect from '../InputMultiSelect';
+import InputText from '../InputText';
 
 const InputGroup = ({
   inputMeta,
@@ -122,6 +122,7 @@ const InputGroup = ({
         break;
     }
   };
+
   return (
     <div className="container m-auto relative flex flex-col">
       <div className="flex flex-row w-full">

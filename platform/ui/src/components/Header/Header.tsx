@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
@@ -19,7 +20,7 @@ function Header({
   ...props
 }): ReactNode {
   const { t } = useTranslation('Header');
-
+  const navigate = useNavigate();
   // TODO: this should be passed in as a prop instead and the react-router-dom
   // dependency should be dropped
   const onClickReturn = () => {
@@ -52,15 +53,18 @@ function Header({
                 <Svg name="logo-ohif" />
               )} */}
               <Svg name="logo0" />
-              {/* <div style={styles.logo}>Ω</div> */}
-              {/* <img height='30px' src={require('./../../assets/svgs/logo.png')} alt='*'/> */}
               <span style={{ color: 'white', marginLeft: 15, fontFamily: 'monospace' }}>View DICOM Anywhere Anytime</span>
             </div>
           </div>
         </div>
         <div className="flex items-center">{children}</div>
-        <div className="flex items-center" id="reed_options">
-          <span className="mr-3 text-lg text-common-light">
+        <div className="flex items-center" id="rs_options">
+          {!isReturnEnabled &&
+            <div className="flex items-center cursor-pointer" title='Load local files' onClick={() => navigate('/local')}>
+              <Svg name="open" />
+              <span className="ml-1 mr-3 text-md text-common-light">{t('Local')}</span>
+            </div>}
+          <span className="mr-3 text-md text-common-light">
             {t('INVESTIGATIONAL USE ONLY')}
           </span>
           <Dropdown showDropdownIcon={false} list={menuOptions}>

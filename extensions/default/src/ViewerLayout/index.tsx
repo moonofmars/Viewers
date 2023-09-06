@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 import {
-  SidePanel,
-  ErrorBoundary,
-  UserPreferences,
-  AboutModal,
-  Header,
-  useModal,
-  LoadingIndicatorProgress,
-} from '@ohif/ui';
+  CommandsManager,
+  HangingProtocolService,
+  ServicesManager,
+  hotkeys,
+} from '@ohif/core';
 import i18n from '@ohif/i18n';
 import {
-  ServicesManager,
-  HangingProtocolService,
-  hotkeys,
-  CommandsManager,
-} from '@ohif/core';
+  ErrorBoundary,
+  Header,
+  LoadingIndicatorProgress,
+  SidePanel,
+  UserPreferences,
+  useModal
+} from '@ohif/ui';
 import { useAppConfig } from '@state';
 import Toolbar from '../Toolbar/Toolbar';
 
@@ -233,7 +232,7 @@ function ViewerLayout({
         </ErrorBoundary>
       </Header>
       <div
-        id="reed_main_view"
+        id="rs_main_view"
         className="bg-black flex flex-row items-stretch w-full overflow-hidden flex-nowrap relative"
         style={{ height: 'calc(100vh - 52px' }}
       >

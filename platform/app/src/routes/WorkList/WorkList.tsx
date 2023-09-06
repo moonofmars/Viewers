@@ -475,7 +475,7 @@ function WorkList({
         }),
       }
       : undefined;
-  console.log('⬆️🇫🍺', window.location.search, seriesInStudiesMap, studies, sortedStudies);
+  console.log('⬆️🇫🍺', uploadProps, customizationService, servicesManager);
 
   return (
     <div className="bg-black h-screen flex flex-col " id="rd_wk_list">

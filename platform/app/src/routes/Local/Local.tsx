@@ -1,14 +1,14 @@
-import React, { useEffect, useRef } from 'react';
-import classnames from 'classnames';
-import { useNavigate } from 'react-router-dom';
 import { DicomMetadataStore, MODULE_TYPES } from '@ohif/core';
+import classnames from 'classnames';
+import React, { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Dropzone from 'react-dropzone';
 import filesToStudies from './filesToStudies';
 
 import { extensionManager } from '../../App.tsx';
 
-import { Icon, Button, LoadingIndicatorProgress, Svg } from '@ohif/ui';
+import { Button, Icon, LoadingIndicatorProgress, Svg } from '@ohif/ui';
 
 const getLoadButton = (onDrop, text, isDir) => {
   return (
@@ -119,17 +119,22 @@ function Local({ modePath }: LocalProps) {
     >
       {({ getRootProps }) => (
         <div {...getRootProps()} style={{ width: '100%', height: '100%' }}>
-          <div className="h-screen w-screen flex justify-center items-center ">
+          <div className="h-screen w-screen flex justify-center items-center" id='rs_local_outline'>
             <div className="py-8 px-8 mx-auto bg-secondary-dark drop-shadow-md space-y-2 rounded-lg">
               {/* <img
                 className="block mx-auto h-14"
                 src="./ohif-logo.svg"
                 alt="OHIF"
               /> */}
+              {/* <div className='text-white absolute top-4 right-4 p-4 cursor-pointer'
+                id='rs_local_first'
+                onClick={() => navigate('/')} title='view cloud resources'>
+                <Icon name='close' />
+              </div> */}
               <div className="flex items-center justify-center">
                 <Svg name="logo1" />
                 <div style={{ marginLeft: 15, fontFamily: 'monospace' }}
-                 className='text-white text-[20px] leading-[1.2]'>
+                  className='text-white text-[20px] leading-[1.2]'>
                   View DICOM<br />Anywhere Anytime</div>
               </div>
               <div className="text-center space-y-2 pt-4" id='rs_remind'>

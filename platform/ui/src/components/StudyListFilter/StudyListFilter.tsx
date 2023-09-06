@@ -27,6 +27,7 @@ const StudyListFilter = ({
   };
   const isSortingEnabled = numOfStudies > 0 && numOfStudies <= 100;
 
+  console.log('😋🫡', onUploadClick);
   return (
     <React.Fragment>
       <div id="rs_study_filter">

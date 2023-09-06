@@ -4,8 +4,11 @@ window.config = {
   extensions: [],
   modes: [],
   customizationService: {
-    // Shows a custom route -access via http://localhost:3000/custom
+    // // Shows a custom route -access via http://localhost:3000/custom
     // helloPage: '@ohif/extension-default.customizationModule.helloPage',
+    // reed 0906
+    dicomUploadComponent:
+      '@ohif/extension-cornerstone.customizationModule.cornerstoneDicomUploadComponent',
   },
   showStudyList: true, //首页拉取示例cloudfront.net/dicomweb/studies
   // some windows systems have issues with more than 3 web workers
@@ -66,7 +69,7 @@ window.config = {
         // are in the series level or study level (some servers like series some study)
         bulkDataURI: {
           enabled: true,
-          relativeResolution: 'studies',
+          relativeResolution: 'studies',//d33do7qe4w26qo.cloudfront.net/dicomweb/studies
         },
       },
     },

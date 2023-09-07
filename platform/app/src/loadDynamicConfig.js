@@ -1,6 +1,5 @@
 export default async config => {
   const useDynamicConfig = config.dangerouslyUseDynamicConfig;
-
   // Check if dangerouslyUseDynamicConfig enabled
   if (useDynamicConfig?.enabled) {
     // If enabled then get configUrl query-string
@@ -12,7 +11,7 @@ export default async config => {
       const regex = useDynamicConfig.regex;
 
       if (configUrl.match(regex)) {
-        const response = await fetch(configUrl);
+        const response = await fetch(configUrl);//后端获取配置？
         return response.json();
       } else {
         return null;

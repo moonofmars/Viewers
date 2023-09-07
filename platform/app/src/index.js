@@ -1,10 +1,10 @@
 /**
- * Entry point for development and production PWA builds.
+ * Entry point for development and production PWA builds. -- configured in webpack.pwa.js
  */
-import 'regenerator-runtime/runtime';
-import App from './App';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'regenerator-runtime/runtime';
+import App from './App';
 import { history } from './utils/history';
 
 /**
@@ -16,16 +16,16 @@ import { history } from './utils/history';
  * pluginImports.js imports all of the modes and extensions and adds them
  * to the window for processing.
  */
-import {
-  modes as defaultModes,
-  extensions as defaultExtensions,
-} from './pluginImports';
 import loadDynamicConfig from './loadDynamicConfig';
+import {
+  extensions as defaultExtensions,
+  modes as defaultModes,
+} from './pluginImports';
 
 loadDynamicConfig(window.config).then(config_json => {
   // Reset Dynamic config if defined
   if (config_json !== null) {
-    window.config = config_json;
+    window.config = config_json;//if dangerouslyUseDynamicConfig and get config from server
   }
 
   /**
@@ -43,5 +43,7 @@ loadDynamicConfig(window.config).then(config_json => {
   /** Render */
   ReactDOM.render(app, document.getElementById('root'));
 });
+
+console.log('🚗 入口 +++', history);
 
 export { history };

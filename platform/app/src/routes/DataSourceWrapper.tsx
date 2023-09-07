@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { MODULE_TYPES } from '@ohif/core';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 //
+import { useLocation, useParams } from 'react-router';
 import { extensionManager } from '../App.tsx';
-import { useParams, useLocation } from 'react-router';
 
 /**
  * Uses route properties to determine the data source that should be passed
@@ -15,7 +15,7 @@ import { useParams, useLocation } from 'react-router';
  * @param {function} props.children - Layout Template React Component
  */
 function DataSourceWrapper(props) {
-  const { children: LayoutTemplate, ...rest } = props;
+  const { children: LayoutTemplate, ...rest } = props;//children = WorkList; rest内嵌套route
   const params = useParams();
   const location = useLocation();
 
@@ -44,10 +44,11 @@ function DataSourceWrapper(props) {
       .map(ds => ds.name)
       .find(it => extensionManager.getDataSources(it)?.[0] !== undefined);
   }
-  const dataSource = extensionManager.getDataSources(dataSourceName)?.[0];
+  const dataSource = extensionManager.getDataSources(dataSourceName)?.[0];//extensionManager
   if (!dataSource) {
     throw new Error(`No data source found for ${dataSourceName}`);
   }
+  console.log('DataSourceWrapper+++', dataSourceName, location.search, window.config, dataSource, extensionManager);
 
   // Route props --> studies.mapParams
   // mapParams --> studies.search
@@ -75,7 +76,8 @@ function DataSourceWrapper(props) {
     // 204: no content
     async function getData() {
       setIsLoading(true);
-      const studies = await dataSource.query.studies.search(queryFilterValues);
+      console.log('getData  getData++', queryFilterValues);
+      const studies = await dataSource.query.studies.search(queryFilterValues);//从服务器拉数据
 
       setData({
         studies: studies || [],
@@ -99,7 +101,7 @@ function DataSourceWrapper(props) {
       const newOffset =
         Math.floor(
           (queryFilterValues.pageNumber * queryFilterValues.resultsPerPage) /
-            STUDIES_LIMIT
+          STUDIES_LIMIT
         ) *
         (STUDIES_LIMIT - 1);
       const isLocationUpdated = data.location !== location;
@@ -129,7 +131,7 @@ function DataSourceWrapper(props) {
       // To refresh the data, simply reset it to DEFAULT_DATA which invalidates it and triggers a new query to fetch the data.
       onRefresh={() => setData(DEFAULT_DATA)}
     />
-  );
+  );//LayoutTemplate = WorkList
 }
 
 DataSourceWrapper.propTypes = {

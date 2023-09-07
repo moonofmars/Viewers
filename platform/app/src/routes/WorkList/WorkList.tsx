@@ -57,7 +57,7 @@ function WorkList({
   // ~ Modes
   const [appConfig] = useAppConfig();
   // ~ Filters
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams();//url parameters
   const navigate = useNavigate();
   const STUDIES_LIMIT = 101;
   const queryFilterValues = _getQueryFilterValues(searchParams);
@@ -66,7 +66,7 @@ function WorkList({
     ...queryFilterValues,
   });
 
-  const debouncedFilterValues = useDebounce(filterValues, 200);
+  const debouncedFilterValues = useDebounce(filterValues, 200);//delay
   const { resultsPerPage, pageNumber, sortBy, sortDirection } = filterValues;
 
   const fromLocal =
@@ -201,6 +201,7 @@ function WorkList({
   useEffect(() => {
     const fetchSeries = async studyInstanceUid => {
       try {
+        console.log('fetchSeriesfetchSeries++', dataSource, studyInstanceUid);
         const series = await dataSource.query.series.search(studyInstanceUid);
         seriesInStudiesMap.set(studyInstanceUid, sortBySeriesDate(series));
         setStudiesWithSeriesData([...studiesWithSeriesData, studyInstanceUid]);
@@ -475,7 +476,7 @@ function WorkList({
         }),
       }
       : undefined;
-  console.log('⬆️🇫🍺', uploadProps, customizationService, servicesManager);
+  console.log('⬆️🇫🍺', studies, searchParams, appConfig);//uploadProps, customizationService, servicesManager);
 
   return (
     <div className="bg-black h-screen flex flex-col " id="rd_wk_list">

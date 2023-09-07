@@ -1,30 +1,30 @@
-import { api } from 'dicomweb-client';
 import {
   DicomMetadataStore,
   IWebApiDataSource,
-  utils,
-  errorHandler,
   classes,
+  errorHandler,
+  utils,
 } from '@ohif/core';
+import { api } from 'dicomweb-client';
 
+import dcm4cheeReject from './dcm4cheeReject';
 import {
   mapParams,
-  search as qidoSearch,
-  seriesInStudy,
   processResults,
   processSeriesResults,
+  search as qidoSearch,
+  seriesInStudy,
 } from './qido.js';
-import dcm4cheeReject from './dcm4cheeReject';
 
-import getImageId from './utils/getImageId';
 import dcmjs from 'dcmjs';
+import getDirectURL from '../utils/getDirectURL';
 import {
-  retrieveStudyMetadata,
   deleteStudyMetadataPromise,
+  retrieveStudyMetadata,
 } from './retrieveStudyMetadata.js';
 import StaticWadoClient from './utils/StaticWadoClient';
-import getDirectURL from '../utils/getDirectURL';
 import { fixBulkDataURI } from './utils/fixBulkDataURI';
+import getImageId from './utils/getImageId';
 
 const { DicomMetaDictionary, DicomDict } = dcmjs.data;
 
@@ -109,7 +109,7 @@ function createDicomWebApi(dicomWebConfig, userAuthenticationService) {
     query: {
       studies: {
         mapParams: mapParams.bind(),
-        search: async function(origParams) {
+        search: async function (origParams) {
           const headers = userAuthenticationService.getAuthorizationHeader();
           if (headers) {
             qidoDicomWebClient.headers = headers;
@@ -121,6 +121,7 @@ function createDicomWebApi(dicomWebConfig, userAuthenticationService) {
               supportsWildcard,
             }) || {};
 
+          console.log('拉数据📚🌶++', qidoDicomWebClient);
           const results = await qidoSearch(
             qidoDicomWebClient,
             undefined,
@@ -134,7 +135,7 @@ function createDicomWebApi(dicomWebConfig, userAuthenticationService) {
       },
       series: {
         // mapParams: mapParams.bind(),
-        search: async function(studyInstanceUid) {
+        search: async function (studyInstanceUid) {
           const headers = userAuthenticationService.getAuthorizationHeader();
           if (headers) {
             qidoDicomWebClient.headers = headers;

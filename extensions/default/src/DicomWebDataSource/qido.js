@@ -111,6 +111,12 @@ async function search(
   seriesInstanceUid,
   queryParameters
 ) {
+  console.log('准备🔥+++', {
+    dicomWebClient,
+    studyInstanceUid,
+    seriesInstanceUid,
+    queryParameters
+  });
   let searchResult = await dicomWebClient.searchForStudies({
     studyInstanceUid: undefined,
     queryParams: queryParameters,
@@ -221,4 +227,4 @@ function mapParams(params, options = {}) {
   return final;
 }
 
-export { mapParams, search, processResults };
+export { mapParams, processResults, search };

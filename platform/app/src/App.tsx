@@ -1,32 +1,32 @@
 // External
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import i18n from '@ohif/i18n';
-import { I18nextProvider } from 'react-i18next';
-import { BrowserRouter } from 'react-router-dom';
-import Compose from './routes/Mode/Compose';
 import {
-  ServicesManager,
-  ExtensionManager,
   CommandsManager,
+  ExtensionManager,
   HotkeysManager,
+  ServicesManager,
 } from '@ohif/core';
+import i18n from '@ohif/i18n';
 import {
+  CineProvider,
   DialogProvider,
   Modal,
   ModalProvider,
   SnackbarProvider,
   ThemeWrapper,
+  UserAuthenticationProvider,
   ViewportDialogProvider,
   ViewportGridProvider,
-  CineProvider,
-  UserAuthenticationProvider,
 } from '@ohif/ui';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import { BrowserRouter } from 'react-router-dom';
+import Compose from './routes/Mode/Compose';
 // Viewer Project
 // TODO: Should this influence study list?
 import { AppConfigProvider } from '@state';
-import createRoutes from './routes';
 import appInit from './appInit.js';
+import createRoutes from './routes';
 import OpenIdConnectRoutes from './utils/OpenIdConnectRoutes';
 
 let commandsManager: CommandsManager,
@@ -35,6 +35,7 @@ let commandsManager: CommandsManager,
   hotkeysManager: HotkeysManager;
 
 function App({ config, defaultExtensions, defaultModes }) {
+  console.log('进入App++++', config, defaultExtensions, defaultModes);
   const [init, setInit] = useState(null);
   useEffect(() => {
     const run = async () => {

@@ -8,7 +8,7 @@ const webpackBase = require('./../../../.webpack/webpack.base.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { InjectManifest } = require('workbox-webpack-plugin');
+const { InjectManifest } = require('workbox-webpack-plugin');//Service Worker 插件
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // ~~ Directories
 const SRC_DIR = path.join(__dirname, '../src');
@@ -20,8 +20,8 @@ const PUBLIC_URL = process.env.PUBLIC_URL || '/';
 const APP_CONFIG = process.env.APP_CONFIG || 'config/default.js';
 const PROXY_TARGET = process.env.PROXY_TARGET;
 const PROXY_DOMAIN = process.env.PROXY_DOMAIN;
-const ENTRY_TARGET = process.env.ENTRY_TARGET || `${SRC_DIR}/index.js`;
-const Dotenv = require('dotenv-webpack');
+const ENTRY_TARGET = process.env.ENTRY_TARGET || `${SRC_DIR}/index.js`;//入口
+const Dotenv = require('dotenv-webpack');//将环境变量从 .env 文件加载到中 process.env
 const writePluginImportFile = require('./writePluginImportsFile.js');
 
 const copyPluginFromExtensions = writePluginImportFile(SRC_DIR, DIST_DIR);
@@ -54,7 +54,7 @@ module.exports = (env, argv) => {
       path: DIST_DIR,
       filename: isProdBuild ? '[name].bundle.[chunkhash].js' : '[name].js',
       publicPath: PUBLIC_URL, // Used by HtmlWebPackPlugin for asset prefix
-      devtoolModuleFilenameTemplate: function(info) {
+      devtoolModuleFilenameTemplate: function (info) {
         if (isProdBuild) {
           return `webpack:///${info.resourcePath}`;
         } else {
@@ -72,7 +72,7 @@ module.exports = (env, argv) => {
       ],
     },
     plugins: [
-      new Dotenv(),
+      new Dotenv(),//dotenv-webpack 会自动查找并加载项目根目录下的 .env
       // Clean output.path
       new CleanWebpackPlugin(),
       // Copy "Public" Folder to Dist
@@ -143,7 +143,7 @@ module.exports = (env, argv) => {
       // http2: true,
       // https: true,
       open: true,
-      port: 3000,
+      port: 3001,
       client: {
         overlay: { errors: true, warnings: false },
       },

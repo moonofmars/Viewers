@@ -19,7 +19,7 @@ const bakedInRoutes = [
   },
   {
     path: '/local',
-    children: Local.bind(null, { modePath: '' }), // navigate to the worklist
+    children: Local.bind(null, { modePath: '' }),
   },
   {
     path: '/localbasic',
@@ -54,9 +54,9 @@ const createRoutes = ({
 
   const WorkListRoute = {
     path: '/',
-    children: DataSourceWrapper,
+    children: DataSourceWrapper,//determine the data source that should be passed
     private: true,
-    props: { children: WorkList, servicesManager },
+    props: { children: WorkList, servicesManager },//首页
   };
 
   const customRoutes = customizationService.getGlobalCustomization(
@@ -71,6 +71,7 @@ const createRoutes = ({
   ];
 
   function RouteWithErrorBoundary({ route, ...rest }) {
+    // console.log('RouteWithErrorBoundary+++', route, rest);
     // eslint-disable-next-line react/jsx-props-no-spreading
     return (
       <ErrorBoundary context={`Route ${route.path}`} fallbackRoute="/">
@@ -83,7 +84,7 @@ const createRoutes = ({
           hotkeysManager={hotkeysManager}
         />
       </ErrorBoundary>
-    );
+    );//route.children = DataSourceWrapper
   }
 
   const { userAuthenticationService } = servicesManager.services;
